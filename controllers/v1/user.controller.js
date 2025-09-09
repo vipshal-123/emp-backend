@@ -137,7 +137,7 @@ export const updateEmployee = async (req, reply) => {
 
 export const deleteEmployee = async (req, reply) => {
     try {
-        const { params } = req
+        const { params, server, user } = req
 
         const employee = await Employee.findByPk(params?.id)
 
@@ -147,6 +147,7 @@ export const deleteEmployee = async (req, reply) => {
 
         await employee.update({ isDeleted: true })
 
+        await server.cacheDeletePrefix(user.id)
         return reply.status(200).send({ success: true, message: 'Employee deleted successfully' })
     } catch (error) {
         console.error('deleteEmployee error', error)
