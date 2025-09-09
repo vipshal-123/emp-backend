@@ -101,7 +101,7 @@ export const getEmployeeById = async (req, reply) => {
 
 export const updateEmployee = async (req, reply) => {
     try {
-        const { params, body, server } = req
+        const { params, body, user, server } = req
 
         const payload = {
             name: body?.name,
