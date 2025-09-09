@@ -119,7 +119,13 @@ export const updateEmployee = async (req, reply) => {
             return reply.status(404).send({ success: false, message: 'Employee not found' })
         }
 
-        await employee.update(payload)
+        const [updateEmployee] = await Employee.update(payload, { where: { id: params?.id } })
+        console.log('updateEmployee: ', updateEmployee);
+        
+        if (updateEmployee === 0) {
+            return reply.status(500).send({ success: false, message: 'Something went wrong' })
+        }
+
 
         return reply.status(200).send({ success: true, message: 'Employee updated successfully' })
     } catch (error) {
