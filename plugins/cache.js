@@ -30,6 +30,7 @@ const cachePlugin = async (app) => {
 
     const deleteCachePrefix = async (userId) => {
         const keys = await redis.smembers(`employee:keys:${userId}`)
+        console.log("key============", keys)
         if (!isEmpty(keys)) {
             await redis.del(...keys)
             await redis.del(`employee:keys:${userId}`)
