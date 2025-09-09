@@ -5,7 +5,7 @@ import { Op } from 'sequelize'
 
 export const createEmployee = async (req, reply) => {
     try {
-        const { body, user } = req
+        const { body, user, server } = req
 
         const payload = {
             userId: user.id,
@@ -25,6 +25,7 @@ export const createEmployee = async (req, reply) => {
             return reply.status(500).send({ success: false, message: 'Employee added successfully' })
         }
 
+        await server.cacheDeletePrefix(user.id)
         return reply.status(201).send({ success: true, message: 'Employee created successfully', id: employee?.id })
     } catch (error) {
         console.error('createEmployee error', error)
@@ -100,7 +101,7 @@ export const getEmployeeById = async (req, reply) => {
 
 export const updateEmployee = async (req, reply) => {
     try {
-        const { params, body } = req
+        const { params, body, server } = req
 
         const payload = {
             name: body?.name,
@@ -126,7 +127,7 @@ export const updateEmployee = async (req, reply) => {
             return reply.status(500).send({ success: false, message: 'Something went wrong' })
         }
 
-
+        await server.cacheDeletePrefix(user.id)
         return reply.status(200).send({ success: true, message: 'Employee updated successfully' })
     } catch (error) {
         console.error('updateEmployee error', error)
