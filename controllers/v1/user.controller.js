@@ -47,7 +47,7 @@ export const getEmployees = async (req, reply) => {
         }
 
         let employees = await server.cacheGet(cacheKey)
-        console.log('employees: ', employees);
+        console.log('employees: ', employees)
 
         if (!isEmpty(employees)) {
             const lastData = employees[employees.length - 1].id
@@ -67,7 +67,7 @@ export const getEmployees = async (req, reply) => {
             return reply.status(200).send({ success: true, data: [] })
         }
 
-        await server.cacheSet(cacheKey, employees, 120)
+        await server.cacheSet(cacheKey, employees, 120, user.id)
 
         const lastData = employees[employees.length - 1].id
         const encodeData = Buffer.from(JSON.stringify({ id: lastData }), 'utf-8').toString('base64')
@@ -101,7 +101,7 @@ export const getEmployeeById = async (req, reply) => {
 
 export const updateEmployee = async (req, reply) => {
     try {
-        const { params, body, user, server } = req
+        const { params, body, server, user } = req
 
         const payload = {
             name: body?.name,
@@ -121,8 +121,8 @@ export const updateEmployee = async (req, reply) => {
         }
 
         const [updateEmployee] = await Employee.update(payload, { where: { id: params?.id } })
-        console.log('updateEmployee: ', updateEmployee);
-        
+        console.log('updateEmployee: ', updateEmployee)
+
         if (updateEmployee === 0) {
             return reply.status(500).send({ success: false, message: 'Something went wrong' })
         }
