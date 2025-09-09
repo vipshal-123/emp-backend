@@ -10,6 +10,7 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
+        "@babel/runtime": "^7.28.4",
         "@fastify/caching": "^9.0.3",
         "@fastify/cookie": "^11.0.2",
         "@fastify/cors": "^11.1.0",
