@@ -6,6 +6,12 @@ export const sequelize = new Sequelize(config.DATABASE_NAME, config.USER_NAME, c
     port: config.DB_PORT,
     dialect: 'postgres',
     logging: false,
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false,
+        },
+    },
 })
 
 let connectionCounter = 0
